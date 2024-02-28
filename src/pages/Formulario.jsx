@@ -1,9 +1,32 @@
 import styled from "styled-components";
+import { Btnoperaciones } from "../components/Btnoperaciones";
+import {FcPicture} from "react-icons/fc"
 
 export function Formulario() {
   return (
     <Container>
-      <h1>Formulario</h1>
+      <div className="sub-contenedor">
+        <div className="header">
+          <h1> 🔑 Registration</h1>
+        </div>
+        <form className="entradas">
+          <ContainerInputs>
+            <div className="subcontainer">
+              <h4>Description:</h4>
+              <Inputs placeholder="Enter a description" type="text"/>
+            </div>
+          </ContainerInputs>
+          <ContainerInputs>
+            <div className="subcontainer">
+              <h4>Price:</h4>
+              <Inputs placeholder="Enter the price" type="number" step="0.01"/>
+            </div>
+          </ContainerInputs>
+          <div className="footercontent">
+            <Btnoperaciones titulo="enviar" icono={<FcPicture />} />
+          </div>
+        </form>
+      </div>
     </Container>
   );
 }
