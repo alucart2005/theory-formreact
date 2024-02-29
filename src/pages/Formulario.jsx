@@ -1,25 +1,82 @@
 import styled from "styled-components";
 import { Btnoperaciones } from "../components/Btnoperaciones";
-import {FcPicture} from "react-icons/fc"
+import { FcPicture } from "react-icons/fc";
+import { useForm } from "react-hook-form";
+import sweetalert from "sweetalert";
 
 export function Formulario() {
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    reset,
+  } = useForm(); //destructucion de useForm()
+  function insert(data) {
+    sweetalert("PRICE", data.price.toString());
+    reset();
+  }
   return (
     <Container>
       <div className="sub-contenedor">
         <div className="header">
           <h1> 🔑 Registration</h1>
         </div>
-        <form className="entradas">
+        <form className="entradas" onSubmit={handleSubmit(insert)}>
           <ContainerInputs>
             <div className="subcontainer">
               <h4>Description:</h4>
-              <Inputs placeholder="Enter a description" type="text"/>
+              <Inputs
+                placeholder="Enter a description"
+                type="text"
+                {...register("description", {
+                  required: true,
+                  minLength: 2,
+                  maxLength: 20,
+                })}
+              />
+              {errors.description?.type === "required" && (
+                <p>😵Input a description</p>
+              )}
+              {errors.description?.type === "minLength" && (
+                <p>😵Enter minimum 2 chararacers</p>
+              )}
+              {errors.description?.type === "maxLength" && (
+                <p>😵Enter maximum 20 chararacers</p>
+              )}
             </div>
           </ContainerInputs>
           <ContainerInputs>
             <div className="subcontainer">
               <h4>Price:</h4>
-              <Inputs placeholder="Enter the price" type="number" step="0.01"/>
+              <Inputs
+                placeholder="Enter the price"
+                type="number"
+                step="0.01"
+                {...register("price", {
+                  required: true,
+                  valueAsNumber: true,
+                })}
+              />
+              {errors.price?.type === "required" && <p>😰Input price</p>}
+            </div>
+          </ContainerInputs>
+          <ContainerInputs>
+            <div className="subcontainer">
+              <h4>Email:</h4>
+              <Inputs
+                placeholder="Enter @email"
+                type="text"
+                {...register("email", {
+                  pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/i,
+                  required: true,
+                })}
+              />
+                {
+                  errors.email?.type==="pattern" &&  <p>Enter a valid email</p>
+                }
+                {
+                  errors.email?.type==="required" && <p>email is required</p>
+                }
             </div>
           </ContainerInputs>
           <div className="footercontent">
@@ -30,6 +87,7 @@ export function Formulario() {
     </Container>
   );
 }
+//#region STYLED COMPONENTS
 const Container = styled.div`
   height: 100vh;
   position: relative;
@@ -110,3 +168,5 @@ const Inputs = styled.input`
     box-shadow: 5px 5px #888888;
   }
 `;
+
+//#endregion
