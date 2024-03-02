@@ -12,7 +12,7 @@ export function Formulario() {
     reset,
   } = useForm(); //destructucion de useForm()
   function insert(data) {
-    sweetalert("PRICE", data.price.toString());
+    sweetalert("EMAIL", data.email);
     reset();
   }
   return (
