@@ -1,6 +1,7 @@
 import styled from "styled-components";
+import PropTypes from "prop-types";
 
-export function Btnoperaciones({ titulo, icono,funcion }) {
+export function Btnoperaciones({ titulo, icono, funcion}) {
   return (
     <Btn onClick={funcion}>
       {icono}
@@ -8,6 +9,11 @@ export function Btnoperaciones({ titulo, icono,funcion }) {
     </Btn>
   );
 }
+Btnoperaciones.propTypes = {   // Valida las props del componente usando PropTypes
+  titulo: PropTypes.string.isRequired,
+  icono: PropTypes.element.isRequired,
+  funcion: PropTypes.func,
+};
 const Btn = styled.button`
   display: flex;
   align-items: center;
