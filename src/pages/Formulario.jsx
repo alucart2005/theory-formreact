@@ -3,6 +3,7 @@ import { Btnoperaciones } from "../components/Btnoperaciones";
 import { FcPicture } from "react-icons/fc";
 import { useForm } from "react-hook-form";
 import sweetalert from "sweetalert";
+import { ValidarOtaku } from "../utils/validarOtaku";
 
 export function Formulario() {
   const {
@@ -10,16 +11,22 @@ export function Formulario() {
     formState: { errors },
     handleSubmit,
     reset,
-  } = useForm(); //destructucion de useForm()
+    watch,
+  } = useForm({
+    defaultValues:{
+      description: "psg",
+      email: "psg@psg.com"
+    }
+  }); //destructucion de useForm()
   function insert(data) {
-    sweetalert("EMAIL", data.email);
+    sweetalert("Welcome new user", data.description);
     reset();
   }
   return (
     <Container>
       <div className="sub-contenedor">
         <div className="header">
-          <h1> 🔑 Registration</h1>
+          <h1> 🔑 registering to {watch("description")}</h1>
         </div>
         <form className="entradas" onSubmit={handleSubmit(insert)}>
           <ContainerInputs>
@@ -77,6 +84,19 @@ export function Formulario() {
                 {
                   errors.email?.type==="required" && <p>email is required</p>
                 }
+            </div>
+          </ContainerInputs>
+          <ContainerInputs>
+            <div className="subcontainer">
+              <h4>Age:</h4>
+              <Inputs
+                placeholder="Valid Age"
+                type="text"
+                {...register("napoleon",{required:true,validate:ValidarOtaku})}
+              />
+              {
+                errors.napoleon && <p>Invalid age !!!</p> 
+              }
             </div>
           </ContainerInputs>
           <div className="footercontent">
